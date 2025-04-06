@@ -47,11 +47,8 @@
   <!-- Particles Canvas Background -->
   <canvas id="particles-canvas" class="fixed top-0 left-0 w-full h-full"></canvas>
   
-  <!-- Overlay for mobile menu -->
-  <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
-  
   <!-- Animated Header -->
-  <header class="relative z-50 sticky top-0 transition-all duration-500 ease-in-out" id="animated-header">
+  <header class="relative z-40 sticky top-0 transition-all duration-500 ease-in-out" id="animated-header">
     <!-- Gradient animated border -->
     <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient bg-[length:200%_200%]"></div>
     
@@ -103,14 +100,16 @@
                 <span class="absolute inset-0 h-full w-full bg-white/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-300 ease-out origin-bottom"></span>
               </a>
               
-              <a href="<?php echo BASE_URL; ?>/posts/add" class="relative px-4 py-2 text-gray-200 hover:text-white group">
-                <span class="relative z-10 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <!-- Enhanced New Post Button -->
+              <a href="<?php echo BASE_URL; ?>/posts/add" class="relative overflow-hidden px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300 ease-out group">
+                <span class="relative z-10 flex items-center font-medium">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
                   </svg>
                   New Post
                 </span>
-                <span class="absolute inset-0 h-full w-full bg-white/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-300 ease-out origin-bottom"></span>
+                <span class="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+                <span class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></span>
               </a>
               
               <a href="<?php echo BASE_URL; ?>/users/logout" class="relative overflow-hidden px-5 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg shadow-md hover:scale-105 transition-all duration-300 ease-out">
@@ -130,120 +129,108 @@
             <?php endif; ?>
           </div>
           
-          <!-- Mobile Menu Toggle with animation -->
-          <button id="menu-toggle" class="md:hidden relative w-10 h-10 text-white focus:outline-none rounded-lg overflow-hidden group">
-            <span class="sr-only">Open Menu</span>
-            <div class="absolute w-5 h-0.5 rounded-full bg-white top-[30%] left-1/2 -translate-x-1/2 transition-all duration-300"></div>
-            <div class="absolute w-5 h-0.5 rounded-full bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300"></div>
-            <div class="absolute w-5 h-0.5 rounded-full bg-white bottom-[30%] left-1/2 -translate-x-1/2 transition-all duration-300"></div>
-            <div class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-20 transition duration-300 bg-white"></div>
+          <!-- NEW Simple Hamburger Menu Button -->
+          <button id="hamburger-menu" class="md:hidden w-10 h-10 flex flex-col justify-center items-center focus:outline-none">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
           </button>
         </nav>
       </div>
     </div>
   </header>
-    
-  <!-- Mobile Navigation - Side Menu with improved animations -->
-  <div id="mobile-menu" class="fixed top-0 left-0 h-full w-72 md:hidden bg-black/90 backdrop-filter backdrop-blur-xl shadow-2xl z-50 transform -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
-    <!-- Header with close button -->
-    <div class="flex justify-between items-center p-4 border-b border-gray-800">
-      <div class="flex items-center space-x-2">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-800 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+  
+  <!-- NEW Mobile Menu Overlay -->
+  <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden"></div>
+  
+  <!-- NEW Mobile Menu - Side Drawer -->
+  <div id="mobile-menu-drawer" class="fixed top-0 left-0 w-64 h-full bg-gray-900 z-50 shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out">
+    <div class="flex flex-col h-full overflow-y-auto">
+      <!-- Menu Header with Close Button -->
+      <div class="flex items-center justify-between p-4 border-b border-gray-800">
+        <div class="text-xl font-bold text-white">Menu</div>
+        <button id="mobile-menu-close" class="p-1 rounded-full hover:bg-gray-800">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
-        </div>
-        <h3 class="text-xl font-bold text-white">Menu</h3>
+        </button>
       </div>
-      <button id="close-menu" class="text-white p-2 rounded-full hover:bg-gray-800 transition-all duration-300 hover:rotate-90">
-        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
-    
-    <!-- Menu items with staggered animation -->
-    <div class="py-6 px-4 space-y-4 overflow-y-auto max-h-[calc(100vh-64px)]">
-      <!-- Menu item: Home -->
-      <a href="<?php echo BASE_URL; ?>" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
-        <div class="flex items-center space-x-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      
+      <!-- Menu Content -->
+      <div class="p-4 space-y-4">
+        <a href="<?php echo BASE_URL; ?>" class="mobile-menu-item flex items-center gap-3 text-white hover:bg-blue-900/30 p-3 rounded-lg transition-all">
+          <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
           </svg>
           <span>Home</span>
-        </div>
-      </a>
-      
-      <!-- Menu item: GitHub -->
-      <a href="https://github.com/adeptmehdi" target="_blank" rel="noopener noreferrer" 
-         class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
-        <div class="flex items-center space-x-3">
-          <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+        </a>
+        
+        <a href="https://github.com/adeptmehdi" target="_blank" class="mobile-menu-item flex items-center gap-3 text-white hover:bg-blue-900/30 p-3 rounded-lg transition-all">
+          <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
           </svg>
           <span>GitHub Profile</span>
-        </div>
-      </a>
-      
-      <!-- Conditional menu items -->
-      <?php if(isset($_SESSION['user_id'])) : ?>
-        <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') : ?>
-          <a href="<?php echo BASE_URL; ?>/admin" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
-            <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </a>
+        
+        <?php if(isset($_SESSION['user_id'])) : ?>
+          <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') : ?>
+            <a href="<?php echo BASE_URL; ?>/admin" class="mobile-menu-item flex items-center gap-3 text-white hover:bg-blue-900/30 p-3 rounded-lg transition-all">
+              <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
               </svg>
               <span>Admin</span>
-            </div>
-          </a>
-        <?php endif; ?>
-        <a href="<?php echo BASE_URL; ?>/users/profile" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
-          <div class="flex items-center space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </a>
+          <?php endif; ?>
+          
+          <a href="<?php echo BASE_URL; ?>/users/profile" class="mobile-menu-item flex items-center gap-3 text-white hover:bg-blue-900/30 p-3 rounded-lg transition-all">
+            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
             </svg>
             <span>Profile</span>
-          </div>
-        </a>
-        <a href="<?php echo BASE_URL; ?>/posts/add" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
-          <div class="flex items-center space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            <span>Create Post</span>
-          </div>
-        </a>
-        <div class="menu-item mt-6 px-3">
-          <a href="<?php echo BASE_URL; ?>/users/logout" class="block bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 shadow-md w-full text-center">
-            <div class="flex items-center justify-center space-x-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              <span>Logout</span>
-            </div>
           </a>
-        </div>
-      <?php else : ?>
-        <a href="<?php echo BASE_URL; ?>/users/login" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
-          <div class="flex items-center space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+          
+          <!-- Enhanced Mobile New Post Button -->
+          <a href="<?php echo BASE_URL; ?>/posts/add" class="mobile-menu-item flex items-center gap-3 text-white p-3 rounded-lg transition-all relative overflow-hidden bg-gradient-to-r from-blue-600/30 to-indigo-600/30 hover:from-blue-600/50 hover:to-indigo-600/50">
+            <div class="flex items-center gap-3 relative z-10">
+              <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+              </svg>
+              <span class="font-medium">Create Post</span>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
+          </a>
+          
+          <div class="pt-4 mt-4 border-t border-gray-800">
+            <a href="<?php echo BASE_URL; ?>/users/logout" class="block w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-center font-medium py-3 px-4 rounded-lg shadow-md transition duration-300">
+              <div class="flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                <span>Logout</span>
+              </div>
+            </a>
+          </div>
+        <?php else : ?>
+          <a href="<?php echo BASE_URL; ?>/users/login" class="mobile-menu-item flex items-center gap-3 text-white hover:bg-blue-900/30 p-3 rounded-lg transition-all">
+            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
             </svg>
             <span>Login</span>
-          </div>
-        </a>
-        <div class="menu-item mt-6 px-3">
-          <a href="<?php echo BASE_URL; ?>/users/register" class="block bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 shadow-md w-full text-center">
-            <div class="flex items-center justify-center space-x-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-              </svg>
-              <span>Register</span>
-            </div>
           </a>
-        </div>
-      <?php endif; ?>
+          
+          <div class="pt-4 mt-4 border-t border-gray-800">
+            <a href="<?php echo BASE_URL; ?>/users/register" class="block w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-center font-medium py-3 px-4 rounded-lg shadow-md transition duration-300">
+              <div class="flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                <span>Register</span>
+              </div>
+            </a>
+          </div>
+        <?php endif; ?>
+      </div>
     </div>
   </div>
   

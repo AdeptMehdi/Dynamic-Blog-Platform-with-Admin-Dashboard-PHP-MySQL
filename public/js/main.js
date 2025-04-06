@@ -40,109 +40,85 @@ document.addEventListener('DOMContentLoaded', function() {
     lastScrollTop = scrollTop;
   });
 
-  // Enhanced Mobile menu toggle with animation - Side menu from left
-  const menuToggle = document.getElementById('menu-toggle');
-  const closeMenu = document.getElementById('close-menu');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const mobileOverlay = document.getElementById('mobile-overlay');
+  // NEW Mobile Menu Implementation
+  const hamburgerButton = document.getElementById('hamburger-menu');
+  const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+  const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
   
-  if (menuToggle && mobileMenu) {
-    let isOpen = false;
+  // Function to open the mobile menu
+  function openMobileMenu() {
+    hamburgerButton.classList.add('active');
+    mobileMenuOverlay.classList.add('active');
+    mobileMenuOverlay.classList.remove('hidden');
+    mobileMenuDrawer.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+  }
+  
+  // Function to close the mobile menu
+  function closeMobileMenu() {
+    hamburgerButton.classList.remove('active');
+    mobileMenuOverlay.classList.remove('active');
+    mobileMenuDrawer.classList.remove('active');
+    document.body.style.overflow = ''; // Allow scrolling
     
-    // Function to open the menu
-    const openMenu = () => {
-      isOpen = true;
-      
-      // Show the menu with animation from left
-      mobileMenu.classList.remove('-translate-x-full');
-      mobileMenu.classList.add('translate-x-0');
-      
-      // Add active class to toggle button
-      menuToggle.classList.add('active');
-      
-      // Show overlay with fade in
-      mobileOverlay.classList.remove('hidden');
-      setTimeout(() => {
-        mobileOverlay.classList.add('opacity-100');
-        mobileOverlay.classList.remove('opacity-0');
-      }, 10);
-      
-      // Add body class to prevent scrolling
-      document.body.classList.add('overflow-hidden');
-      
-      // Reset menu items animation
-      const menuItems = document.querySelectorAll('.menu-item');
-      menuItems.forEach((item, index) => {
-        item.style.animation = 'none';
-        setTimeout(() => {
-          item.style.animation = `slideIn 0.5s ease forwards ${0.1 * (index + 1)}s`;
-        }, 10);
-      });
-    };
-    
-    // Function to close the menu
-    const closeMenuFunc = () => {
-      isOpen = false;
-      
-      // Hide the menu with animation
-      mobileMenu.classList.remove('translate-x-0');
-      mobileMenu.classList.add('-translate-x-full');
-      
-      // Remove active class from toggle button
-      menuToggle.classList.remove('active');
-      
-      // Hide overlay with fade out
-      mobileOverlay.classList.add('opacity-0');
-      mobileOverlay.classList.remove('opacity-100');
-      setTimeout(() => {
-        mobileOverlay.classList.add('hidden');
-      }, 300);
-      
-      // Remove body class to allow scrolling
-      document.body.classList.remove('overflow-hidden');
-    };
-    
-    // Open menu when toggle is clicked
-    menuToggle.addEventListener('click', function() {
-      if (isOpen) {
-        closeMenuFunc();
+    // Hide the overlay after transition
+    setTimeout(() => {
+      mobileMenuOverlay.classList.add('hidden');
+    }, 300);
+  }
+  
+  // Toggle mobile menu when hamburger button is clicked
+  if (hamburgerButton) {
+    hamburgerButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (this.classList.contains('active')) {
+        closeMobileMenu();
       } else {
-        openMenu();
+        openMobileMenu();
       }
-    });
-    
-    // Close menu when close button is clicked
-    if (closeMenu) {
-      closeMenu.addEventListener('click', closeMenuFunc);
-    }
-    
-    // Close menu when overlay is clicked
-    if (mobileOverlay) {
-      mobileOverlay.addEventListener('click', closeMenuFunc);
-    }
-    
-    // Close menu on window resize to desktop size
-    window.addEventListener('resize', function() {
-      if (window.innerWidth >= 768 && isOpen) {
-        closeMenuFunc();
-      }
-    });
-
-    // Close menu when clicking escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && isOpen) {
-        closeMenuFunc();
-      }
-    });
-    
-    // Close menu when clicking a menu item that navigates away
-    const menuLinks = mobileMenu.querySelectorAll('a[href]:not([target="_blank"])');
-    menuLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        closeMenuFunc();
-      });
     });
   }
+  
+  // Close mobile menu when close button is clicked
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileMenu();
+    });
+  }
+  
+  // Close mobile menu when overlay is clicked
+  if (mobileMenuOverlay) {
+    mobileMenuOverlay.addEventListener('click', function() {
+      closeMobileMenu();
+    });
+  }
+  
+  // Close mobile menu when ESC key is pressed
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && hamburgerButton && hamburgerButton.classList.contains('active')) {
+      closeMobileMenu();
+    }
+  });
+  
+  // Close mobile menu when window is resized to desktop size
+  window.addEventListener('resize', function() {
+    if (window.innerWidth >= 768 && hamburgerButton && hamburgerButton.classList.contains('active')) {
+      closeMobileMenu();
+    }
+  });
+  
+  // Add click event listeners to all mobile menu items
+  const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+  mobileMenuItems.forEach(item => {
+    item.addEventListener('click', function() {
+      // Don't close menu if it opens in a new tab or has no href
+      if (this.getAttribute('target') !== '_blank' && this.getAttribute('href')) {
+        closeMobileMenu();
+      }
+    });
+  });
 
   // Add simple text editor functionality for blog post creation/editing
   const editorToolbar = document.querySelector('.editor-toolbar');

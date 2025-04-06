@@ -31,19 +31,74 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-/* Menu items animation */
-.menu-item {
-  opacity: 0;
-  transform: translateX(-20px);
-  animation: slideIn 0.5s ease forwards;
+/* NEW Hamburger Menu Styles */
+#hamburger-menu {
+  position: relative;
+  z-index: 51;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.menu-item:nth-child(1) { animation-delay: 0.1s; }
-.menu-item:nth-child(2) { animation-delay: 0.2s; }
-.menu-item:nth-child(3) { animation-delay: 0.3s; }
-.menu-item:nth-child(4) { animation-delay: 0.4s; }
-.menu-item:nth-child(5) { animation-delay: 0.5s; }
-.menu-item:nth-child(6) { animation-delay: 0.6s; }
+#hamburger-menu:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.375rem;
+}
+
+.hamburger-line {
+  width: 24px;
+  height: 2px;
+  background-color: white;
+  margin: 4px 0;
+  transition: all 0.3s ease;
+  border-radius: 9999px;
+}
+
+/* Hamburger active state */
+#hamburger-menu.active .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+#hamburger-menu.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+#hamburger-menu.active .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile menu overlay */
+#mobile-menu-overlay {
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  z-index: 50;
+}
+
+#mobile-menu-overlay.active {
+  opacity: 1;
+}
+
+/* Mobile menu drawer */
+#mobile-menu-drawer {
+  transition: transform 0.3s ease;
+  z-index: 50;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+}
+
+#mobile-menu-drawer.active {
+  transform: translateX(0);
+}
+
+/* Mobile menu items */
+.mobile-menu-item {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-menu-item:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+  transform: translateX(4px);
+}
 
 @keyframes slideIn {
   from {
@@ -54,28 +109,6 @@
     opacity: 1;
     transform: translateX(0);
   }
-}
-
-/* Updated Hamburger animation */
-#menu-toggle div {
-  transition: transform 0.3s ease, width 0.3s ease, top 0.3s ease, bottom 0.3s ease;
-}
-
-#menu-toggle.active div:first-child {
-  transform: translate(-50%, 0.25rem) rotate(45deg);
-  left: 50%;
-  width: 18px;
-}
-
-#menu-toggle.active div:nth-child(2) {
-  transform: translate(-50%, -50%) rotate(-45deg);
-  width: 18px;
-}
-
-#menu-toggle.active div:nth-child(3) {
-  transform: translate(-50%, -0.25rem) rotate(45deg);
-  width: 0;
-  opacity: 0;
 }
 
 /* Card hover effects */
@@ -549,59 +582,173 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-/* Mobile menu overlay */
-#mobile-overlay {
-  transition: opacity 0.3s ease;
-  opacity: 0;
+/* Create Post Page Styling */
+.post-creation-container {
+  position: relative;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(17, 24, 39, 0.7);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-/* Mobile menu */
-#mobile-menu {
-  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
-  overflow-y: auto;
+.post-creation-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(79, 70, 229, 0.1));
+  z-index: 0;
 }
 
-/* Custom scrollbar for mobile menu */
-#mobile-menu::-webkit-scrollbar {
-  width: 5px;
+.post-creation-container > * {
+  position: relative;
+  z-index: 1;
 }
 
-#mobile-menu::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.7);
+/* Form inputs for post creation */
+.post-form-input {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #f3f4f6;
+  width: 100%;
+  transition: all 0.3s ease;
 }
 
-#mobile-menu::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.5);
-  border-radius: 10px;
+.post-form-input:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-/* Prevent body scroll when menu is open */
-body.overflow-hidden {
+/* Post title input specific styling */
+.post-title-input {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+/* Post body textarea specific styling */
+.post-body-textarea {
+  min-height: 300px;
+  font-family: inherit;
+  line-height: 1.8;
+  resize: vertical;
+}
+
+/* Editor toolbar styling */
+.editor-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: rgba(31, 41, 55, 0.7);
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.editor-toolbar button {
+  background-color: rgba(55, 65, 81, 0.7);
+  border: none;
+  color: #e5e7eb;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.editor-toolbar button:hover {
+  background-color: rgba(59, 130, 246, 0.5);
+  color: white;
+}
+
+.editor-toolbar button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Post submission button */
+.post-submit-btn {
+  background-image: linear-gradient(to right, #3b82f6, #6366f1);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
   overflow: hidden;
 }
 
-/* Animation for menu items */
-#mobile-menu .py-6 > a,
-#mobile-menu .py-6 > div {
-  opacity: 0;
-  transform: translateX(-20px);
-  animation: slideIn 0.3s ease forwards;
+.post-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-#mobile-menu.translate-x-0 .py-6 > a:nth-child(1) { animation-delay: 0.05s; }
-#mobile-menu.translate-x-0 .py-6 > a:nth-child(2) { animation-delay: 0.1s; }
-#mobile-menu.translate-x-0 .py-6 > a:nth-child(3) { animation-delay: 0.15s; }
-#mobile-menu.translate-x-0 .py-6 > a:nth-child(4) { animation-delay: 0.2s; }
-#mobile-menu.translate-x-0 .py-6 > a:nth-child(5) { animation-delay: 0.25s; }
-#mobile-menu.translate-x-0 .py-6 > div { animation-delay: 0.3s; }
+.post-submit-btn::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: all 0.5s ease;
+}
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.post-submit-btn:hover::after {
+  left: 100%;
+}
+
+/* File upload button styling */
+.file-upload-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.file-upload-btn input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  cursor: pointer;
+  display: block;
+}
+
+.file-upload-text {
+  background-color: rgba(55, 65, 81, 0.5);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-upload-text:hover {
+  background-color: rgba(55, 65, 81, 0.8);
+}
+
+.file-name-display {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #9ca3af;
 } 
