@@ -1,0 +1,473 @@
+/* Custom styles beyond Tailwind CSS */
+
+/* Particles Canvas */
+#particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Main container with proper z-index */
+.main-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Card hover effects */
+.blog-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(0);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 30px -15px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.blog-card img {
+  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blog-card:hover img {
+  transform: scale(1.12);
+}
+
+/* Image container for blog cards */
+.blog-card .image-container {
+  height: 12rem;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Card content area */
+.blog-card .content-area {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+/* Card text truncation */
+.blog-card .truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Flash message styling */
+#msg-flash {
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 12px;
+  animation: fadeIn 0.5s ease-in-out;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 50;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Basic style for error text */
+.error {
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* Admin badge style */
+.admin-badge {
+  background-color: #ef4444;
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+/* Status badge styles */
+.status-published {
+  background-color: rgba(16, 185, 129, 0.3);
+  color: #ecfdf5;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  display: inline-block;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-draft {
+  background-color: rgba(245, 158, 11, 0.3);
+  color: #fffbeb;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  display: inline-block;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Glass effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+}
+
+/* Fixed header z-index */
+header.sticky {
+  z-index: 40;
+}
+
+/* Mobile menu z-index */
+#mobile-menu {
+  z-index: 35;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+#mobile-menu.active {
+  max-height: 500px;
+}
+
+/* Footer z-index */
+footer {
+  position: relative;
+  z-index: 10;
+}
+
+/* Prose styling for blog content */
+.prose {
+  max-width: 65ch;
+  color: #f3f4f6;
+  line-height: 1.8;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.prose p {
+  margin-bottom: 1.25em;
+}
+
+.prose h1 {
+  font-size: 2.25em;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.8888889em;
+  line-height: 1.1111111;
+  color: #f9fafb;
+}
+
+.prose h2 {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  line-height: 1.3333333;
+  color: #f9fafb;
+}
+
+.prose h3 {
+  font-size: 1.25em;
+  font-weight: 600;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+  line-height: 1.6;
+  color: #f9fafb;
+}
+
+.prose a {
+  color: #60a5fa;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.prose a:hover {
+  color: #93c5fd;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.prose ul {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  list-style-type: disc;
+  padding-left: 1.625em;
+}
+
+.prose ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  list-style-type: decimal;
+  padding-left: 1.625em;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose blockquote {
+  font-weight: 500;
+  font-style: italic;
+  color: #d1d5db;
+  border-left-width: 0.25rem;
+  border-left-color: #4b5563;
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  padding-left: 1em;
+}
+
+.prose pre {
+  color: #e5e7eb;
+  background-color: rgba(31, 41, 55, 0.7);
+  overflow-x: auto;
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  margin-top: 1.7142857em;
+  margin-bottom: 1.7142857em;
+  border-radius: 0.5rem;
+  padding: 1em 1.5em;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(75, 85, 99, 0.2);
+}
+
+.prose code {
+  color: #e5e7eb;
+  background-color: rgba(55, 65, 81, 0.5);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Custom Image styles */
+.featured-image {
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  max-width: 100%;
+  height: auto;
+}
+
+.featured-image:hover {
+  transform: scale(1.03);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.7);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(96, 165, 250, 0.9);
+}
+
+/* Button hover effects */
+.btn-hover-effect {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-hover-effect:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: all 0.5s ease;
+}
+
+.btn-hover-effect:hover:after {
+  left: 100%;
+}
+
+/* GitHub link positioning */
+.github-link {
+  position: relative;
+  z-index: 5;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .prose {
+    font-size: 0.875rem;
+  }
+  
+  header nav {
+    padding: 0.75rem 1rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  .blog-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .blog-card .image-container {
+    height: 10rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  footer {
+    text-align: center;
+  }
+  
+  footer .grid {
+    gap: 2rem;
+  }
+  
+  /* Fix for mobile menu */
+  #mobile-menu .space-y-3 {
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* Animation for page transitions */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main {
+  animation: fadeUp 0.5s ease-out;
+}
+
+/* Input field styling */
+input, textarea, select {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
+  max-width: 100%;
+}
+
+input:focus, textarea:focus, select:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(96, 165, 250, 0.5);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Mobile menu overlay */
+#mobile-overlay {
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+/* Mobile menu */
+#mobile-menu {
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for mobile menu */
+#mobile-menu::-webkit-scrollbar {
+  width: 5px;
+}
+
+#mobile-menu::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.7);
+}
+
+#mobile-menu::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 10px;
+}
+
+/* Prevent body scroll when menu is open */
+body.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Animation for menu items */
+#mobile-menu .py-6 > a,
+#mobile-menu .py-6 > div {
+  opacity: 0;
+  transform: translateX(20px);
+  animation: slideIn 0.3s ease forwards;
+}
+
+#mobile-menu.translate-x-0 .py-6 > a:nth-child(1) { animation-delay: 0.05s; }
+#mobile-menu.translate-x-0 .py-6 > a:nth-child(2) { animation-delay: 0.1s; }
+#mobile-menu.translate-x-0 .py-6 > a:nth-child(3) { animation-delay: 0.15s; }
+#mobile-menu.translate-x-0 .py-6 > a:nth-child(4) { animation-delay: 0.2s; }
+#mobile-menu.translate-x-0 .py-6 > a:nth-child(5) { animation-delay: 0.25s; }
+#mobile-menu.translate-x-0 .py-6 > div { animation-delay: 0.3s; }
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+} 
