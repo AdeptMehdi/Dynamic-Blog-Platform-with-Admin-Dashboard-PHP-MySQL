@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Enhanced Mobile menu toggle with animation - Side menu from right
+  // Enhanced Mobile menu toggle with animation - Side menu from left
   const menuToggle = document.getElementById('menu-toggle');
   const closeMenu = document.getElementById('close-menu');
   const mobileMenu = document.getElementById('mobile-menu');
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileMenu.classList.remove('-translate-x-full');
       mobileMenu.classList.add('translate-x-0');
       
-      // Show overlay
+      // Show overlay with fade in
       mobileOverlay.classList.remove('hidden');
       setTimeout(() => {
         mobileOverlay.classList.add('opacity-100');
@@ -49,9 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 10);
       
       // Change the menu icon to X
-      const menuIcon = menuToggle.querySelector('svg');
-      menuIcon.innerHTML = `
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      menuToggle.innerHTML = `
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
       `;
       
       // Add body class to prevent scrolling
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileMenu.classList.remove('translate-x-0');
       mobileMenu.classList.add('-translate-x-full');
       
-      // Hide overlay
+      // Hide overlay with fade out
       mobileOverlay.classList.add('opacity-0');
       mobileOverlay.classList.remove('opacity-100');
       setTimeout(() => {
@@ -74,9 +75,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 300);
       
       // Change the menu icon back to hamburger
-      const menuIcon = menuToggle.querySelector('svg');
-      menuIcon.innerHTML = `
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      menuToggle.innerHTML = `
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
       `;
       
       // Remove body class to allow scrolling
