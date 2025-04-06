@@ -17,6 +17,67 @@
   z-index: 1;
 }
 
+/* Animated Header Styles */
+#animated-header {
+  transition: all 0.4s ease;
+}
+
+#animated-header.scrolled {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  height: 60px;
+}
+
+#animated-header.scrolled .backdrop-filter {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Menu items animation */
+.menu-item {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideIn 0.5s ease forwards;
+}
+
+.menu-item:nth-child(1) { animation-delay: 0.1s; }
+.menu-item:nth-child(2) { animation-delay: 0.2s; }
+.menu-item:nth-child(3) { animation-delay: 0.3s; }
+.menu-item:nth-child(4) { animation-delay: 0.4s; }
+.menu-item:nth-child(5) { animation-delay: 0.5s; }
+.menu-item:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Updated Hamburger animation */
+#menu-toggle div {
+  transition: transform 0.3s ease, width 0.3s ease, top 0.3s ease, bottom 0.3s ease;
+}
+
+#menu-toggle.active div:first-child {
+  transform: translate(-50%, 0.25rem) rotate(45deg);
+  left: 50%;
+  width: 18px;
+}
+
+#menu-toggle.active div:nth-child(2) {
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 18px;
+}
+
+#menu-toggle.active div:nth-child(3) {
+  transform: translate(-50%, -0.25rem) rotate(45deg);
+  width: 0;
+  opacity: 0;
+}
+
 /* Card hover effects */
 .blog-card {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);

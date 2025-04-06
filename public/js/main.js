@@ -23,6 +23,22 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+  
+  // Header scroll animation
+  const header = document.getElementById('animated-header');
+  let lastScrollTop = 0;
+  
+  window.addEventListener('scroll', function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+    
+    lastScrollTop = scrollTop;
+  });
 
   // Enhanced Mobile menu toggle with animation - Side menu from left
   const menuToggle = document.getElementById('menu-toggle');
@@ -41,6 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileMenu.classList.remove('-translate-x-full');
       mobileMenu.classList.add('translate-x-0');
       
+      // Add active class to toggle button
+      menuToggle.classList.add('active');
+      
       // Show overlay with fade in
       mobileOverlay.classList.remove('hidden');
       setTimeout(() => {
@@ -48,15 +67,17 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileOverlay.classList.remove('opacity-0');
       }, 10);
       
-      // Change the menu icon to X
-      menuToggle.innerHTML = `
-        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      `;
-      
       // Add body class to prevent scrolling
       document.body.classList.add('overflow-hidden');
+      
+      // Reset menu items animation
+      const menuItems = document.querySelectorAll('.menu-item');
+      menuItems.forEach((item, index) => {
+        item.style.animation = 'none';
+        setTimeout(() => {
+          item.style.animation = `slideIn 0.5s ease forwards ${0.1 * (index + 1)}s`;
+        }, 10);
+      });
     };
     
     // Function to close the menu
@@ -67,19 +88,15 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileMenu.classList.remove('translate-x-0');
       mobileMenu.classList.add('-translate-x-full');
       
+      // Remove active class from toggle button
+      menuToggle.classList.remove('active');
+      
       // Hide overlay with fade out
       mobileOverlay.classList.add('opacity-0');
       mobileOverlay.classList.remove('opacity-100');
       setTimeout(() => {
         mobileOverlay.classList.add('hidden');
       }, 300);
-      
-      // Change the menu icon back to hamburger
-      menuToggle.innerHTML = `
-        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      `;
       
       // Remove body class to allow scrolling
       document.body.classList.remove('overflow-hidden');

@@ -20,6 +20,23 @@
             '80': '80',
             '90': '90',
             '100': '100',
+          },
+          animation: {
+            'float': 'float 3s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'bounce-slow': 'bounce 3s infinite',
+            'gradient': 'gradient 8s ease infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            gradient: {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            }
           }
         }
       }
@@ -31,89 +48,149 @@
   <canvas id="particles-canvas" class="fixed top-0 left-0 w-full h-full"></canvas>
   
   <!-- Overlay for mobile menu -->
-  <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+  <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
   
-  <header class="relative z-50 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg shadow-lg border-b border-white border-opacity-20 sticky top-0">
-    <nav class="container mx-auto px-4 py-3 sm:py-4 flex justify-between items-center">
-      <a href="<?php echo BASE_URL; ?>" class="text-xl sm:text-2xl font-bold text-white flex items-center">
-        <span class="inline-block mr-2 bg-blue-500 text-white p-1.5 sm:p-2 rounded-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-          </svg>
-        </span>
-        <?php echo APP_NAME; ?>
-      </a>
-      
-      <!-- Desktop Navigation -->
-      <div class="hidden md:flex space-x-6 items-center">
-        <a href="<?php echo BASE_URL; ?>" class="text-gray-200 hover:text-white transition duration-300 hover:scale-105 transform">Home</a>
-        
-        <!-- GitHub Link (Desktop) -->
-        <a href="https://github.com/adeptmehdi" target="_blank" rel="noopener noreferrer" 
-           class="text-gray-200 hover:text-white transition duration-300 hover:scale-105 transform flex items-center">
-          <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
-          </svg>
-          GitHub
-        </a>
-        
-        <?php if(isset($_SESSION['user_id'])) : ?>
-          <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') : ?>
-            <a href="<?php echo BASE_URL; ?>/admin" class="text-gray-200 hover:text-white transition duration-300 hover:scale-105 transform">Admin</a>
-          <?php endif; ?>
-          <a href="<?php echo BASE_URL; ?>/users/profile" class="text-gray-200 hover:text-white transition duration-300 hover:scale-105 transform">Profile</a>
-          <a href="<?php echo BASE_URL; ?>/users/logout" class="ml-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 transform hover:translate-y-[-2px] btn-hover-effect">Logout</a>
-        <?php else : ?>
-          <a href="<?php echo BASE_URL; ?>/users/login" class="text-gray-200 hover:text-white transition duration-300 hover:scale-105 transform">Login</a>
-          <a href="<?php echo BASE_URL; ?>/users/register" class="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 transform hover:translate-y-[-2px] btn-hover-effect">Register</a>
-        <?php endif; ?>
+  <!-- Animated Header -->
+  <header class="relative z-50 sticky top-0 transition-all duration-500 ease-in-out" id="animated-header">
+    <!-- Gradient animated border -->
+    <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient bg-[length:200%_200%]"></div>
+    
+    <!-- Main header content -->
+    <div class="backdrop-filter backdrop-blur-lg bg-black/20 shadow-2xl">
+      <div class="container mx-auto px-4 relative">
+        <!-- Top bar with logo and nav -->
+        <nav class="flex items-center justify-between h-16 sm:h-20">
+          <!-- Logo with animation -->
+          <a href="<?php echo BASE_URL; ?>" class="group flex items-center space-x-2 sm:space-x-3">
+            <div class="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-blue-600 to-indigo-800 shadow-lg transform transition duration-500 group-hover:scale-110 group-hover:rotate-3">
+              <span class="absolute w-full h-full bg-white opacity-10 transform rotate-45 translate-x-3 -translate-y-3 group-hover:translate-x-4 group-hover:-translate-y-4 transition duration-700"></span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-7 sm:w-7 text-white relative z-10 animate-float" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+            </div>
+            <span class="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-200"><?php echo APP_NAME; ?></span>
+          </a>
+          
+          <!-- Desktop Navigation with animations -->
+          <div class="hidden md:flex items-center space-x-1 lg:space-x-3">
+            <a href="<?php echo BASE_URL; ?>" class="relative px-4 py-2 text-gray-200 hover:text-white group">
+              <span class="relative z-10">Home</span>
+              <span class="absolute inset-0 h-full w-full bg-white/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-300 ease-out origin-bottom"></span>
+            </a>
+            
+            <!-- GitHub Link (Desktop) -->
+            <a href="https://github.com/adeptmehdi" target="_blank" rel="noopener noreferrer" class="relative px-4 py-2 text-gray-200 hover:text-white group">
+              <span class="relative z-10 flex items-center">
+                <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                </svg>
+                GitHub
+              </span>
+              <span class="absolute inset-0 h-full w-full bg-white/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-300 ease-out origin-bottom"></span>
+            </a>
+            
+            <!-- User navigation with animations -->
+            <?php if(isset($_SESSION['user_id'])) : ?>
+              <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') : ?>
+                <a href="<?php echo BASE_URL; ?>/admin" class="relative px-4 py-2 text-gray-200 hover:text-white group">
+                  <span class="relative z-10">Admin</span>
+                  <span class="absolute inset-0 h-full w-full bg-white/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-300 ease-out origin-bottom"></span>
+                </a>
+              <?php endif; ?>
+              
+              <a href="<?php echo BASE_URL; ?>/users/profile" class="relative px-4 py-2 text-gray-200 hover:text-white group">
+                <span class="relative z-10">Profile</span>
+                <span class="absolute inset-0 h-full w-full bg-white/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-300 ease-out origin-bottom"></span>
+              </a>
+              
+              <a href="<?php echo BASE_URL; ?>/posts/add" class="relative px-4 py-2 text-gray-200 hover:text-white group">
+                <span class="relative z-10 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                  </svg>
+                  New Post
+                </span>
+                <span class="absolute inset-0 h-full w-full bg-white/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-300 ease-out origin-bottom"></span>
+              </a>
+              
+              <a href="<?php echo BASE_URL; ?>/users/logout" class="relative overflow-hidden px-5 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg shadow-md hover:scale-105 transition-all duration-300 ease-out">
+                <span class="relative z-10">Logout</span>
+                <span class="absolute top-0 left-0 w-full h-full bg-white opacity-0 hover:opacity-20 transition-opacity duration-300"></span>
+              </a>
+            <?php else : ?>
+              <a href="<?php echo BASE_URL; ?>/users/login" class="relative px-4 py-2 text-gray-200 hover:text-white group">
+                <span class="relative z-10">Login</span>
+                <span class="absolute inset-0 h-full w-full bg-white/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-300 ease-out origin-bottom"></span>
+              </a>
+              
+              <a href="<?php echo BASE_URL; ?>/users/register" class="relative overflow-hidden px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-md hover:scale-105 transition-all duration-300 ease-out">
+                <span class="relative z-10">Register</span>
+                <span class="absolute top-0 left-0 w-full h-full bg-white opacity-0 hover:opacity-20 transition-opacity duration-300"></span>
+              </a>
+            <?php endif; ?>
+          </div>
+          
+          <!-- Mobile Menu Toggle with animation -->
+          <button id="menu-toggle" class="md:hidden relative w-10 h-10 text-white focus:outline-none rounded-lg overflow-hidden group">
+            <span class="sr-only">Open Menu</span>
+            <div class="absolute w-5 h-0.5 rounded-full bg-white top-[30%] left-1/2 -translate-x-1/2 transition-all duration-300"></div>
+            <div class="absolute w-5 h-0.5 rounded-full bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300"></div>
+            <div class="absolute w-5 h-0.5 rounded-full bg-white bottom-[30%] left-1/2 -translate-x-1/2 transition-all duration-300"></div>
+            <div class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-20 transition duration-300 bg-white"></div>
+          </button>
+        </nav>
       </div>
-      
-      <!-- Mobile Menu Toggle -->
-      <button id="menu-toggle" class="md:hidden text-white focus:outline-none p-1 rounded-lg hover:bg-white/10 transition-all z-60">
-        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-    </nav>
+    </div>
   </header>
     
-  <!-- Mobile Navigation - Side Menu -->
-  <div id="mobile-menu" class="fixed top-0 left-0 h-full w-64 md:hidden bg-gray-900 bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+  <!-- Mobile Navigation - Side Menu with improved animations -->
+  <div id="mobile-menu" class="fixed top-0 left-0 h-full w-72 md:hidden bg-black/90 backdrop-filter backdrop-blur-xl shadow-2xl z-50 transform -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+    <!-- Header with close button -->
     <div class="flex justify-between items-center p-4 border-b border-gray-800">
-      <h3 class="text-xl font-bold text-white">Menu</h3>
-      <button id="close-menu" class="text-white p-2 rounded-full hover:bg-gray-800 transition-all">
-        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div class="flex items-center space-x-2">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-800 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white">Menu</h3>
+      </div>
+      <button id="close-menu" class="text-white p-2 rounded-full hover:bg-gray-800 transition-all duration-300 hover:rotate-90">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
-    <div class="py-6 px-4 space-y-3">
-      <a href="<?php echo BASE_URL; ?>" class="block text-gray-200 hover:text-white py-2 px-3 rounded-lg hover:bg-white/10 transition duration-300">
+    
+    <!-- Menu items with staggered animation -->
+    <div class="py-6 px-4 space-y-4 overflow-y-auto max-h-[calc(100vh-64px)]">
+      <!-- Menu item: Home -->
+      <a href="<?php echo BASE_URL; ?>" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
         <div class="flex items-center space-x-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           <span>Home</span>
         </div>
       </a>
       
-      <!-- GitHub Link (Mobile) -->
+      <!-- Menu item: GitHub -->
       <a href="https://github.com/adeptmehdi" target="_blank" rel="noopener noreferrer" 
-         class="block text-gray-200 hover:text-white py-2 px-3 rounded-lg hover:bg-white/10 transition duration-300">
+         class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
         <div class="flex items-center space-x-3">
-          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
           </svg>
           <span>GitHub Profile</span>
         </div>
       </a>
       
+      <!-- Conditional menu items -->
       <?php if(isset($_SESSION['user_id'])) : ?>
         <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') : ?>
-          <a href="<?php echo BASE_URL; ?>/admin" class="block text-gray-200 hover:text-white py-2 px-3 rounded-lg hover:bg-white/10 transition duration-300">
+          <a href="<?php echo BASE_URL; ?>/admin" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
@@ -121,24 +198,24 @@
             </div>
           </a>
         <?php endif; ?>
-        <a href="<?php echo BASE_URL; ?>/users/profile" class="block text-gray-200 hover:text-white py-2 px-3 rounded-lg hover:bg-white/10 transition duration-300">
+        <a href="<?php echo BASE_URL; ?>/users/profile" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
           <div class="flex items-center space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             <span>Profile</span>
           </div>
         </a>
-        <a href="<?php echo BASE_URL; ?>/posts/add" class="block text-gray-200 hover:text-white py-2 px-3 rounded-lg hover:bg-white/10 transition duration-300">
+        <a href="<?php echo BASE_URL; ?>/posts/add" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
           <div class="flex items-center space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
             <span>Create Post</span>
           </div>
         </a>
-        <div class="mt-4 px-3">
-          <a href="<?php echo BASE_URL; ?>/users/logout" class="block bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md w-full text-center">
+        <div class="menu-item mt-6 px-3">
+          <a href="<?php echo BASE_URL; ?>/users/logout" class="block bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 shadow-md w-full text-center">
             <div class="flex items-center justify-center space-x-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -148,16 +225,16 @@
           </a>
         </div>
       <?php else : ?>
-        <a href="<?php echo BASE_URL; ?>/users/login" class="block text-gray-200 hover:text-white py-2 px-3 rounded-lg hover:bg-white/10 transition duration-300">
+        <a href="<?php echo BASE_URL; ?>/users/login" class="menu-item block text-gray-200 hover:text-white py-3 px-4 rounded-lg hover:bg-white/10 transition duration-300 transform hover:translate-x-1">
           <div class="flex items-center space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>
             <span>Login</span>
           </div>
         </a>
-        <div class="mt-4 px-3">
-          <a href="<?php echo BASE_URL; ?>/users/register" class="block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md w-full text-center">
+        <div class="menu-item mt-6 px-3">
+          <a href="<?php echo BASE_URL; ?>/users/register" class="block bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 shadow-md w-full text-center">
             <div class="flex items-center justify-center space-x-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
