@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const openMenu = () => {
       isOpen = true;
       
-      // Show the menu with animation from right
-      mobileMenu.classList.remove('translate-x-full');
+      // Show the menu with animation from left
+      mobileMenu.classList.remove('-translate-x-full');
       mobileMenu.classList.add('translate-x-0');
       
       // Show overlay
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Hide the menu with animation
       mobileMenu.classList.remove('translate-x-0');
-      mobileMenu.classList.add('translate-x-full');
+      mobileMenu.classList.add('-translate-x-full');
       
       // Hide overlay
       mobileOverlay.classList.add('opacity-0');

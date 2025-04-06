@@ -79,7 +79,7 @@
   </header>
     
   <!-- Mobile Navigation - Side Menu -->
-  <div id="mobile-menu" class="fixed top-0 right-0 h-full w-64 md:hidden bg-gray-900 bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out">
+  <div id="mobile-menu" class="fixed top-0 left-0 h-full w-64 md:hidden bg-gray-900 bg-opacity-95 backdrop-filter backdrop-blur-lg shadow-xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
     <div class="flex justify-between items-center p-4 border-b border-gray-800">
       <h3 class="text-xl font-bold text-white">Menu</h3>
       <button id="close-menu" class="text-white p-2 rounded-full hover:bg-gray-800 transition-all">

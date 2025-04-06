@@ -423,7 +423,7 @@ input:focus, textarea:focus, select:focus {
 
 /* Mobile menu */
 #mobile-menu {
-  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
 }
 
@@ -450,7 +450,7 @@ body.overflow-hidden {
 #mobile-menu .py-6 > a,
 #mobile-menu .py-6 > div {
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateX(-20px);
   animation: slideIn 0.3s ease forwards;
 }
 
@@ -464,7 +464,7 @@ body.overflow-hidden {
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(-20px);
   }
   to {
     opacity: 1;
